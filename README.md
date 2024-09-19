@@ -9,9 +9,10 @@ A significant challenge when working with React Native is setting up a complete 
 # Test
 
 You will be working on an application that facilitates transactions to beneficiaries. To successfully complete the test, you will need to implement the following features:
- - Introduce a new page to create a beneficiary, including fields for their first name, last name, and IBAN. Additionally, incorporate an IBAN validator to ensure the IBAN's validity.
- - Enable the selection of a beneficiary from a list when making a transaction.
- - Preserve the state of the application so that upon reopening, the list of beneficiaries, transaction history, and balance are retained.
+
+- Introduce a new page to create a beneficiary, including fields for their first name, last name, and IBAN. Additionally, incorporate an IBAN validator to ensure the IBAN's validity.
+- Enable the selection of a beneficiary from a list when making a transaction.
+- Preserve the state of the application so that upon reopening, the list of beneficiaries, transaction history, and balance are retained.
 
 Note: you have free rein in how you want to implement this test, give it you best shot!
 
@@ -20,3 +21,34 @@ Note: you have free rein in how you want to implement this test, give it you bes
 Please create a new Git repository to store both the test first version and your modifications. Document all the commands needed to install and launch this project, excluding the installation of any external SDKs/platforms, our focus will remain strictly on this project.
 
 We hope that you will enjoy taking this test, best of luck!
+
+# Submission Instruction
+
+## Install dependencies
+
+Install node modules
+
+```bash
+npm install
+```
+
+Install cocoapods
+
+```bash
+npx pod-install ios
+
+```
+
+## Run the project
+
+Run the project on Android
+
+```bash
+npm run android
+```
+
+Run the project on iOS
+
+```bash
+npm run ios
+```
