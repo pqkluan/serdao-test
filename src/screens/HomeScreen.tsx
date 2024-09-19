@@ -15,20 +15,20 @@ import { Transaction } from "../types/Transaction";
 const keyExtractor = (item: Transaction) => item.id.toString();
 
 export const HomeScreen: FC<ScreenProps<"Home">> = ({ navigation }) => {
-  const { transactions, balance } = useTransactions();
+  const { balance, accounts, transactions } = useTransactions();
 
   const renderItem: ListRenderItem<Transaction> = useCallback(
-    ({ item }) => (
+    ({ item: { id, amount, account } }) => (
       <View style={styles.item}>
-        <Text style={styles.itemText}>{`Transaction ID: ${item.id}`}</Text>
-        <Text style={styles.itemText}>{`Amount: ${item.amount.toFixed(
-          2
-        )}`}</Text>
+        <Text style={styles.itemText}>{`Transaction ID: ${id}`}</Text>
+        <Text style={styles.itemText}>{`Amount: ${amount.toFixed(2)}`}</Text>
 
-        {!!item.account && (
+        {!!account && (
           <>
-            <Text style={styles.itemText}>{`To: ${item.account.name}`}</Text>
-            <Text style={styles.itemText}>{`IBAN: ${item.account.iban}`}</Text>
+            <Text
+              style={styles.itemText}
+            >{`To: ${account.firstName} ${account.lastName}`}</Text>
+            <Text style={styles.itemText}>{`IBAN: ${account.iban}`}</Text>
           </>
         )}
       </View>
@@ -38,13 +38,24 @@ export const HomeScreen: FC<ScreenProps<"Home">> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.balanceText}>
+      {accounts.length !== 0 && (
+        <Text style={styles.text}>
+          {`Added beneficiaries: ${accounts.length}`}
+        </Text>
+      )}
+
+      <Button
+        title="Add Beneficiary"
+        onPress={() => navigation.navigate("AddBeneficiary")}
+      />
+
+      <Text style={styles.text}>
         {`Current Balance: ${balance.toFixed(2)}`}
       </Text>
 
       <Button
         title="Add Transaction"
-        onPress={() => navigation.navigate("Transaction")}
+        onPress={() => navigation.navigate("AddTransaction")}
       />
 
       <FlatList
@@ -64,10 +75,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: 20,
   },
-  balanceText: {
+  text: {
     fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginTop: 16,
   },
   item: {
     backgroundColor: "#f9f9f9",

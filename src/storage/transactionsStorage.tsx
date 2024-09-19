@@ -6,7 +6,7 @@ const defaultValue: Transaction[] = [];
 
 export const transactionsStorage = {
   defaultValue,
-  initializer: (): Transaction[] => {
+  load: (): Transaction[] => {
     const serializedTransactions = storage.getString(STORAGE_KEY);
     if (typeof serializedTransactions === "undefined") return defaultValue;
 
@@ -19,7 +19,10 @@ export const transactionsStorage = {
 
     return defaultValue;
   },
-  setTransactions: (transactions: Transaction[]) => {
+  save: (transactions: Transaction[]) => {
     storage.set(STORAGE_KEY, JSON.stringify(transactions));
+  },
+  reset: () => {
+    storage.delete(STORAGE_KEY);
   },
 };

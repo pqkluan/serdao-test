@@ -5,12 +5,15 @@ const defaultValue = 1000;
 
 export const balanceStorage = {
   defaultValue,
-  initializer: (): number => {
+  load: (): number => {
     const balance = storage.getNumber(STORAGE_KEY);
     if (typeof balance !== "number") return defaultValue;
     return balance;
   },
-  setBalance: (newBalance: number) => {
+  save: (newBalance: number) => {
     storage.set(STORAGE_KEY, newBalance);
+  },
+  reset: () => {
+    storage.delete(STORAGE_KEY);
   },
 };

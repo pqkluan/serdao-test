@@ -1,7 +1,7 @@
-import { Account } from "./Account";
+import { BeneficiaryAccount } from "./BeneficiaryAccount";
 
 export type Transaction = {
   id: number;
-  account: Account;
   amount: number;
+  account: BeneficiaryAccount;
 };

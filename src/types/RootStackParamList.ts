@@ -1,6 +1,7 @@
 export type RootStackParamList = {
   Home: undefined;
-  Transaction: undefined;
+  AddTransaction: undefined;
+  AddBeneficiary: undefined;
 };
 
 /**
