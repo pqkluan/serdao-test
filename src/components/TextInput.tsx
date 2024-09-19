@@ -1,10 +1,9 @@
-import React, { FC, useRef } from "react";
+import React, { FC } from "react";
 import {
   TextInput as RNTextInput,
   StyleSheet,
   Text,
   TextInputProps,
-  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -17,17 +16,11 @@ interface Props extends TextInputProps {
 export const TextInput: FC<Props> = (props) => {
   const { style, error, ...otherProps } = props;
 
-  const ref = useRef<RNTextInput>(null);
-
-  const onPress = () => {
-    ref.current?.focus();
-  };
-
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.inputContainer} onPress={onPress}>
-        <RNTextInput ref={ref} style={[styles.input, style]} {...otherProps} />
-      </TouchableOpacity>
+      <View style={styles.inputContainer}>
+        <RNTextInput style={[styles.input, style]} {...otherProps} />
+      </View>
       {!!error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );

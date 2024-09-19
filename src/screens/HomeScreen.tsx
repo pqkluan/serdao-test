@@ -44,6 +44,7 @@ export const HomeScreen: FC<ScreenProps<"Home">> = ({ navigation }) => {
         </Text>
       )}
 
+      <View style={styles.space} />
       <Button
         title="Add Beneficiary"
         onPress={() => navigation.navigate("AddBeneficiary")}
@@ -53,6 +54,7 @@ export const HomeScreen: FC<ScreenProps<"Home">> = ({ navigation }) => {
         {`Current Balance: ${balance.toFixed(2)}`}
       </Text>
 
+      <View style={styles.space} />
       <Button
         title="Add Transaction"
         onPress={() => navigation.navigate("AddTransaction")}
@@ -95,5 +97,8 @@ const styles = StyleSheet.create({
   listContainer: {
     flexGrow: 1,
     width: "100%",
+  },
+  space: {
+    height: 16,
   },
 });
