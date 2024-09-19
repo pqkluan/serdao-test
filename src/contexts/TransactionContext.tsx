@@ -5,10 +5,13 @@ import React, {
   FC,
   PropsWithChildren,
   useCallback,
+  useEffect,
 } from "react";
 
 import { Account } from "../types/Account";
 import { Transaction } from "../types/Transaction";
+import { balanceStorage } from "../storage/balanceStorage";
+import { transactionsStorage } from "../storage/transactionsStorage";
 
 type ContextValue = {
   transactions: Transaction[];
@@ -16,47 +19,49 @@ type ContextValue = {
   balance: number;
 };
 
-const defaultContextValue: ContextValue = {
-  balance: 1000,
-  transactions: [],
+const TransactionContext = createContext<ContextValue>({
+  balance: balanceStorage.defaultValue,
+  transactions: transactionsStorage.defaultValue,
   addTransaction: () => {},
-};
-
-const TransactionContext = createContext(defaultContextValue);
-
-const useTransactions = () => useContext(TransactionContext);
+});
 
 const TransactionProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [balance, setBalance] = useState(balanceStorage.initializer);
   const [transactions, setTransactions] = useState<Transaction[]>(
-    defaultContextValue.transactions
+    transactionsStorage.initializer
   );
-
-  const [balance, setBalance] = useState(defaultContextValue.balance);
 
   const addTransaction = useCallback((amount: string, account: Account) => {
     const parsedAmount = parseFloat(amount);
 
-    const newTransaction = {
-      id: Date.now(),
-      amount: parsedAmount,
-      account,
-    };
-
+    setBalance((prevBalance) => prevBalance - parsedAmount);
     setTransactions((prevTransactions) => [
       ...prevTransactions,
-      newTransaction,
+      {
+        id: Date.now(),
+        amount: parsedAmount,
+        account,
+      },
     ]);
-
-    setBalance((prevBalance) => prevBalance - parsedAmount);
   }, []);
+
+  useEffect(() => {
+    balanceStorage.setBalance(balance);
+  }, [balance]);
+
+  useEffect(() => {
+    transactionsStorage.setTransactions(transactions);
+  }, [transactions]);
 
   return (
     <TransactionContext.Provider
-      value={{ transactions, addTransaction, balance }}
+      value={{ balance, transactions, addTransaction }}
     >
       {children}
     </TransactionContext.Provider>
   );
 };
+
+const useTransactions = () => useContext(TransactionContext);
 
 export { TransactionProvider, useTransactions };
